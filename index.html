@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mqtt</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.23.0/axios.min.js" integrity="sha512-Idr7xVNnMWCsgBQscTSCivBNWWH30oo/tzYORviOCrLKmBaRxRflm2miNhTFJNVmXvCtzgms5nlJF4az2hiGnA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+  <h4>welcome</h4>
+  <p>this is your message :</p>
+  <input type="text" id='input1'>
+  <button onclick='publish1()'>click one</button>
+  <h3 id='btn1'> </h3>
+  <input type="text" id='input2'>
+  <button onclick='publish2()'>click two</button>
+  <h3 id='btn2'> </h3>
+  <input type="text" id='input3'>
+  <button onclick='publish3()'>click three</button>
+  <h3 id='btn3'> </h3>
+  <script>
+    let message = document.getElementById('btn1');
+    let message2 = document.getElementById('btn2');
+    let message3 = document.getElementById('btn3');
+    let input = document.getElementById('input1');
+    let input2 = document.getElementById('input2');
+    let input3 = document.getElementById('input3');
+    const publish1 = () => {
+      axios.post('/publish/topic/one',{msg:input.value})
+    }
+    const publish2 = () => {
+      axios.post('/publish/topic/two',{msg:input2.value})
+    }
+    const publish3 = () => {
+      axios.post('/publish/topic/three',{msg:input3.value})
+    }
+    const socket = io('http://localhost:5000/')
+    socket.on('btn1msg',(msg)=>{
+      message.innerText = msg
+    })
+    socket.on('btn2msg',(msg)=>{
+      message2.innerText = msg
+    })
+    socket.on('btn3msg',(msg)=>{
+      message3.innerText = msg
+    })
+  </script>
+</body>
+</html>
